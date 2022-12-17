@@ -1,27 +1,41 @@
 package com.database;
 
+import com.database.entity.Person;
 import com.database.jpa.PersonJpaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-//@SpringBootApplication
-public class SpringBootDatabaseApplication implements CommandLineRunner {
+import java.util.Date;
+
+@SpringBootApplication
+public class JpaDemoApplication implements CommandLineRunner {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
 	@Autowired
 	private PersonJpaRepository repository;
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootDatabaseApplication.class, args);
+		SpringApplication.run(JpaDemoApplication.class, args);
 	}
+
 
 	@Override
 	public void run(String... args) throws Exception {
-		logger.info("Find By Id 1002 -> {}", repository.findById(1003));
+		logger.info("Find By Id 1003 -> {}", repository.findById(1003));
+		logger.info("Inserting 2001 -> {}", repository.insert(
+				new Person("Rock", "Chennai", new Date())
+		));
+		logger.info("Inserting 2001 -> {}", repository.update(
+				new Person(1, "Jelly", "Chennai", new Date())
+		));
+		repository.deleteById(1001);
+		logger.info("Alll Users -> {}", repository.findAll());
 	}
 
 
