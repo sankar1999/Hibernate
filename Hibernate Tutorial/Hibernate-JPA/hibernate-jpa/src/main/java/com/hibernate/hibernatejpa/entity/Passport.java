@@ -1,50 +1,57 @@
 package com.hibernate.hibernatejpa.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
-public class Student {
+public class Passport {
 
     @Id
     @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String number;
 
-    public Student() {
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "passport")
+    private Student student;
+
+    public Passport() {
     }
 
-    public Student(Long id, String name) {
+    public Passport(Long id, String number) {
         this.id = id;
-        this.name = name;
+        this.number = number;
     }
 
-    public Student(String name) {
-        this.name = name;
+    public Passport(String number) {
+        this.number = number;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getNumber() {
+        return number;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     @Override
     public String toString() {
-        return "\n Student{" +
+        return "\n Passport{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", number='" + number + '\'' +
                 '}';
     }
 }

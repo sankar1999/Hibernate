@@ -1,50 +1,63 @@
 package com.hibernate.hibernatejpa.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
-public class Student {
+public class Review {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    private String rating;
+    private String description;
 
-    public Student() {
+    @ManyToOne
+    private Course course;
+
+    public Review() {
     }
 
-    public Student(Long id, String name) {
+    public Review(Long id, String description) {
         this.id = id;
-        this.name = name;
+        this.description = description;
     }
 
-    public Student(String name) {
-        this.name = name;
+    public Review(String rating ,String description) {
+        this.rating = rating;
+        this.description = description;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getRating() {
+        return rating;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     @Override
     public String toString() {
-        return "\n Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return String.format("Review[%s %s]", rating, description);
     }
 }

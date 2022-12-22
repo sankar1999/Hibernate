@@ -1,7 +1,6 @@
 package com.hibernate.hibernatejpa;
 
 import com.hibernate.hibernatejpa.entity.Course;
-import com.hibernate.hibernatejpa.repository.CourseRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -10,14 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @SpringBootTest(classes = HibernateJpaApplication.class)
-public class JPQLTest {
+public class NativeQueriesTest {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -25,27 +22,40 @@ public class JPQLTest {
     private EntityManager entityManager;
 
     @Test
-    public void jpql_basic() {
-        Query query = entityManager.createNamedQuery("query_get_all_courses");
+    public void native_queries_basic() {
+        Query query = entityManager
+                .createNativeQuery("SELECT * FROM COURSE", Course.class);
         List resultList = query.getResultList();
-        logger.info("Select c From Course c -> {}", resultList);
+        logger.info("SELECT * FROM COURSE -> {}", resultList);
     }
 
     @Test
-    public void jpql_typed() {
-        TypedQuery<Course> query = entityManager.createNamedQuery("query_get_all_courses", Course.class);
-        List<Course> resultList = query.getResultList();
-        logger.info("Select c From Course -> {}", resultList);
+    public void native_queries_with_parameter() {
+        Query query = entityManager
+                .createNativeQuery("SELECT * FROM COURSE where id = ?", Course.class);
+        query.setParameter(1, 101L);
+        List resultList = query.getResultList();
+        logger.info("SELECT * FROM COURSE where id = ? -> {}", resultList);
     }
+
 
     @Test
-    public void jpql_where() {
-        TypedQuery<Course> query =
-                entityManager.createNamedQuery("query_get_if_contains_js", Course.class);
-        List<Course> resultList = query.getResultList();
-
-        logger.info("Select c From Course c Where name like '%JS' -> {}", resultList);
+    public void native_queries_with_named_parameter() {
+        Query query = entityManager
+                .createNativeQuery("SELECT * FROM COURSE where id = :id", Course.class);
+        query.setParameter("id", 101L);
+        List resultList = query.getResultList();
+        logger.info("SELECT * FROM COURSE where id = :id = ? -> {}", resultList);
     }
 
+
+    @Test
+    @Transactional
+    public void native_queries_to_update() {
+        Query query = entityManager
+                .createNativeQuery("Update Course set last_updated_date = '2022-12-20 02:17:25'");
+        int noOfRowsUpdated = query.executeUpdate();
+        logger.info("noOfRowsUpdated -> {}", noOfRowsUpdated);
+    }
 
 }

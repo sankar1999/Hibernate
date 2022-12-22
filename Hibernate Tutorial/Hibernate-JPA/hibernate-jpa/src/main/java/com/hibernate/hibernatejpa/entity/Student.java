@@ -5,13 +5,15 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NamedQueries(value = {
-        @NamedQuery(name = "query_get_all_courses", query = "Select c From Course c"),
-        @NamedQuery(name = "query_get_if_contains_js", query = "Select c From Course c Where name like '%JS'")
+        @NamedQuery(name = "query_get_all_Students", query = "Select c From Student c"),
+        @NamedQuery(name = "query_get_if_contains_js", query = "Select c From Student c Where name like '%JS'")
 })
-public class Course {
+public class Student {
 
     @Id
     @GeneratedValue
@@ -20,21 +22,24 @@ public class Course {
     @Column(nullable = false)
     private String name;
 
-    @UpdateTimestamp
-    private LocalDateTime lastUpdatedDate;
+    @OneToOne(fetch = FetchType.LAZY)
+    private Passport passport;
 
-    @CreationTimestamp
-    private LocalDateTime createdDate;
+    @ManyToMany
+    @JoinTable(name = "STUDENT_COURSE",
+    joinColumns = @JoinColumn(name = "STUDENT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "COURSE_ID"))
+    private List<Course> courses = new ArrayList<>();
 
-    public Course() {
+    public Student() {
     }
 
-    public Course(Long id, String name) {
+    public Student(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Course(String name) {
+    public Student(String name) {
         this.name = name;
     }
 
@@ -50,9 +55,25 @@ public class Course {
         this.name = name;
     }
 
+    public Passport getPassport() {
+        return passport;
+    }
+
+    public void setPassport(Passport passport) {
+        this.passport = passport;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void addCourse(Course course) {
+        this.courses.add(course);
+    }
+
     @Override
     public String toString() {
-        return "\n Course{" +
+        return "\n Student{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
