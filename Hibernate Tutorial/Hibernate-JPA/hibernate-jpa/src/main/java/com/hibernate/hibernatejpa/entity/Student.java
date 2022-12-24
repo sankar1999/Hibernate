@@ -22,6 +22,9 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
+    @Embedded
+    private Address address;
+
     @OneToOne(fetch = FetchType.LAZY)
     private Passport passport;
 
@@ -38,6 +41,7 @@ public class Student {
         this.id = id;
         this.name = name;
     }
+
 
     public Student(String name) {
         this.name = name;
@@ -71,6 +75,14 @@ public class Student {
         this.courses.add(course);
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "\n Student{" +
@@ -78,4 +90,6 @@ public class Student {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+
 }

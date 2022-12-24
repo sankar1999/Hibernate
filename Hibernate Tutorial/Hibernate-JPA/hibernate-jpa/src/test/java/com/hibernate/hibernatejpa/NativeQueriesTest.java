@@ -24,7 +24,7 @@ public class NativeQueriesTest {
     @Test
     public void native_queries_basic() {
         Query query = entityManager
-                .createNativeQuery("SELECT * FROM COURSE", Course.class);
+                .createNativeQuery("SELECT * FROM COURSE where", Course.class);
         List resultList = query.getResultList();
         logger.info("SELECT * FROM COURSE -> {}", resultList);
     }
@@ -47,7 +47,6 @@ public class NativeQueriesTest {
         List resultList = query.getResultList();
         logger.info("SELECT * FROM COURSE where id = :id = ? -> {}", resultList);
     }
-
 
     @Test
     @Transactional

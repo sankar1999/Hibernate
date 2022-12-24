@@ -21,7 +21,9 @@ public class CourseRepository {
     EntityManager entityManager;
 
     public Course findById(Long id) {
-        return entityManager.find(Course.class, id);
+        Course course =  entityManager.find(Course.class, id);
+        logger.info("Course -> {}", course);
+        return course;
     }
 
     public void deleteById(long id) {

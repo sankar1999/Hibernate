@@ -1,5 +1,6 @@
 package com.hibernate.hibernatejpa;
 
+import com.hibernate.hibernatejpa.entity.Address;
 import com.hibernate.hibernatejpa.entity.Course;
 import com.hibernate.hibernatejpa.entity.Passport;
 import com.hibernate.hibernatejpa.entity.Student;
@@ -33,6 +34,16 @@ public class StudentRepositoryTest {
         Student student = entityManager.find(Student.class, 201L);
         logger.info("Student -> {}", student);
         logger.info("Passport -> {}", student.getPassport());
+    }
+
+    @Test
+    @Transactional
+    public void setAddressDetails() {
+        Student student = entityManager.find(Student.class, 201L);
+        student.setAddress(new Address("No 101", "Tiruvanmiyur", "Chennai"));
+        entityManager.flush();
+        logger.info("Student -> {}", student);
+        logger.info("Address -> {}", student.getAddress());
     }
 
     @Test

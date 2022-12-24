@@ -37,26 +37,27 @@ public class HibernateJpaApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		employeeRepository.insert(
-				new FullTimeEmployee("Jack", new BigDecimal("10000")));
-
-		employeeRepository.insert(
-				new PartTimeEmployee("Mike", new BigDecimal("500")));
-
-		logger.info("Full Time Employees -> {}", employeeRepository.retrieveAllFullTimeEmployees());
-		logger.info("Part Time Employees -> {}", employeeRepository.retrieveAllPartTimeEmployees());
+//		employeeRepository.insert(
+//				new FullTimeEmployee("Jack", new BigDecimal("10000")));
+//
+//		employeeRepository.insert(
+//				new PartTimeEmployee("Mike", new BigDecimal("500")));
+//
+//		logger.info("Full Time Employees -> {}", employeeRepository.retrieveAllFullTimeEmployees());
+//		logger.info("Part Time Employees -> {}", employeeRepository.retrieveAllPartTimeEmployees());
 
 //		studentRepository.insertHardcodedStudentAndCourse();
 //		Student student = new Student("Elon");
 //		Course course = new Course("The Universe");
 //		studentRepository.insertStudentAndCourse(student, course);
 
-//		List<Review> reviews = new ArrayList<>();
 
 //		studentRepository.saveStudentWithPassport();
 
-//		Review review1 = new Review("6", "Greate Hands-On");
-//		Review review2 = new Review("6", "Hatsoff.");
+//		List<Review> reviews = new ArrayList<>();
+//
+//		Review review1 = new Review(ReviewRating.FIVE, "Greate Hands-On");
+//		Review review2 = new Review(ReviewRating.THREE, "Hatsoff.");
 //
 //		reviews.add(review1);
 //		reviews.add(review2);
